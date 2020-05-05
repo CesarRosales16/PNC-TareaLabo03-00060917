@@ -38,9 +38,18 @@ public class ProductController {
 	public ModelAndView validar(Product product) {
 		ModelAndView mav = new ModelAndView();
 
-		if (product.getCantidad() >= 0 && product.getCantidad() <= productos.get(product.getId()).getCantidad()) 
+		System.out.println("Cantidad ingresada: " + product.getCantidad() + "\n");
+		System.out.println("Cantidad en stock: " + productos.get(product.getId()).getCantidad() + "\n");
+
+		if (product.getCantidad() > 0 && product.getCantidad() <= productos.get(product.getId()).getCantidad()) {
+
+			int newStock = productos.get(product.getId()).getCantidad() - product.getCantidad();
+			System.out.println("Stock - ingresada: " + newStock + "\n");
+			productos.get(product.getId()).setCantidad(newStock);
+			System.out.println("Stock modificado del producto: " + productos.get(product.getId()).getCantidad() + "\n");
+
 			mav.setViewName("compra");
-		else
+		} else
 			mav.setViewName("error");
 
 		mav.addObject("nombre", productos.get(product.getId()).getNombre());
